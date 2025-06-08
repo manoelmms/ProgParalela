@@ -15,29 +15,6 @@ typedef struct complextype {
     float real, imag;
 } Compl;
 
-/* Initialize color palette */
-void init_colors(Display *display, int screen) {
-    Colormap colormap = DefaultColormap(display, screen);
-    XColor color;
-    
-    for (int i = 0; i < MAX_ITER; i++) {
-        if (i == MAX_ITER - 1) {
-            colors[i] = BlackPixel(display, screen);
-        } else {
-            float ratio = (float)i / MAX_ITER;
-            color.red = (unsigned short)(65535 * (0.5 + 0.5 * sin(ratio * 3.14159 * 3)));
-            color.green = (unsigned short)(65535 * (0.5 + 0.5 * sin(ratio * 3.14159 * 3 + 2)));
-            color.blue = (unsigned short)(65535 * (0.5 + 0.5 * sin(ratio * 3.14159 * 3 + 4)));
-            color.flags = DoRed | DoGreen | DoBlue;
-            
-            if (XAllocColor(display, colormap, &color)) {
-                colors[i] = color.pixel;
-            } else {
-                colors[i] = BlackPixel(display, screen);
-            }
-        }
-    }
-}
 
 void main() {
     Window      win;                            /* initialization for a window */
@@ -86,9 +63,6 @@ void main() {
     /* set window position */
     x = 0;
     y = 0;
-
-    /* Initialize colors */
-    init_colors(display, screen);
 
     /* create opaque window */
     border_width = 4;
