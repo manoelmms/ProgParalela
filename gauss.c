@@ -109,6 +109,10 @@ int main(int argc, char* argv[]) {
     
     double tempo_fim = omp_get_wtime();
     
+    printf("Simulação concluída!\n");
+    printf("Tamanho do grid: %d x %d\n", TAMANHO_GRID, TAMANHO_GRID);
+    printf("Número máximo de iterações: %d\n", MAX_ITERACOES);
+    printf("Thread count: %d\n", omp_get_max_threads());
     printf("Depois de %d iterações, o erro foi: %.15lf\n", iteracao, erro_maximo);
     printf("Tempo de execução: %.15lf segundos\n", tempo_fim - tempo_inicio);
     
