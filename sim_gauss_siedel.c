@@ -78,6 +78,18 @@ int main(int argc, char *argv[]) {
         printf("  Time: %.3f seconds\n", end_time - start_time);
         printf("  Iterations: %d\n", iteration-1);
         printf("  Final error: %.6f\n\n", dt);
+
+        // Optional: Print a small section of the grid for verification
+        if (ROWS <= 10 && COLUMNS <= 10) {
+            printf("  Final grid section:\n");
+            for (i = 1; i <= ROWS; i++) {
+                for (j = 1; j <= COLUMNS; j++) {
+                    printf("%.2f ", A[i][j]);
+                }
+                printf("\n");
+            }
+        }
+        printf("--------------------------------------------------\n");
     }
     
     return 0;
