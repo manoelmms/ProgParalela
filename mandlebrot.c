@@ -1,3 +1,4 @@
+/* Sequential Mandlebrot program */
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
@@ -14,30 +15,27 @@ typedef struct complextype {
     float real, imag;
 } Compl;
 
-/* Função para obter cor baseada no número de iterações */
-unsigned long get_color(Display *display, int screen, int iterations) {
-    if (iterations == 100) {
-        // Conjunto de Mandelbrot (pontos que não divergem) - preto
-        return BlackPixel(display, screen);
-    }
-    
-    XColor color;
+/* Initialize color palette */
+void init_colors(Display *display, int screen) {
     Colormap colormap = DefaultColormap(display, screen);
+    XColor color;
     
-    // Gradiente simples: azul -> vermelho baseado nas iterações
-    float ratio = (float)iterations / 100.0;
-    
-    color.red = (unsigned short)(ratio * 65535);      // Aumenta de 0 para máximo
-    color.green = 0;                                  // Sempre 0
-    color.blue = (unsigned short)((1.0 - ratio) * 65535); // Diminui de máximo para 0
-    
-    color.flags = DoRed | DoGreen | DoBlue;
-    
-    if (XAllocColor(display, colormap, &color)) {
-        return color.pixel;
-    } else {
-        // Fallback para preto se não conseguir alocar a cor
-        return BlackPixel(display, screen);
+    for (int i = 0; i < MAX_ITER; i++) {
+        if (i == MAX_ITER - 1) {
+            colors[i] = BlackPixel(display, screen);
+        } else {
+            float ratio = (float)i / MAX_ITER;
+            color.red = (unsigned short)(65535 * (0.5 + 0.5 * sin(ratio * 3.14159 * 3)));
+            color.green = (unsigned short)(65535 * (0.5 + 0.5 * sin(ratio * 3.14159 * 3 + 2)));
+            color.blue = (unsigned short)(65535 * (0.5 + 0.5 * sin(ratio * 3.14159 * 3 + 4)));
+            color.flags = DoRed | DoGreen | DoBlue;
+            
+            if (XAllocColor(display, colormap, &color)) {
+                colors[i] = color.pixel;
+            } else {
+                colors[i] = BlackPixel(display, screen);
+            }
+        }
     }
 }
 
@@ -50,7 +48,7 @@ void main() {
                 display_width, display_height,  /* size of screen */
                 screen;                         /* which screen */
 
-    char        *window_name = "Mandelbrot Set Colorido", *display_name = NULL;
+    char        *window_name = "Mandelbrot Set", *display_name = NULL;
     GC          gc;
     unsigned
     long        valuemask = 0;
@@ -89,6 +87,9 @@ void main() {
     x = 0;
     y = 0;
 
+    /* Initialize colors */
+    init_colors(display, screen);
+
     /* create opaque window */
     border_width = 4;
     win = XCreateSimpleWindow(display, RootWindow(display, screen),
@@ -125,7 +126,7 @@ void main() {
     double t_inicio = omp_get_wtime();
            
     /* Calculate and draw points */
-    #pragma omp parallel for default(none) private(j, z, c, k, temp, lengthsq) shared(display, win, gc, screen) schedule(static)
+    #pragma omp parallel for default(none) private(j, z, c, k, temp, lengthsq) shared(display, win, gc) schedule(static)
     for (i = 0; i < X_RESN; i++) {
         for (j = 0; j < Y_RESN; j++) {
             z.real = z.imag = 0.0;
@@ -141,12 +142,11 @@ void main() {
                 k++;
             } while (lengthsq < 4.0 && k < 100);
 
-            // Desenhar o ponto com cor baseada no número de iterações
-            #pragma omp critical
-            {
-                unsigned long color = get_color(display, screen, k);
-                XSetForeground(display, gc, color);
-                XDrawPoint(display, win, gc, j, i);
+            if (k == 100) {
+                #pragma omp critical
+                {
+                    XDrawPoint(display, win, gc, j, i);
+                }                
             }
         }
     } // barreira implícita        
