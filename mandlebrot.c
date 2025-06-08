@@ -7,9 +7,9 @@
 #include <math.h>
 #include <omp.h>
 
-#define X_RESN 1200      /* x resolution */
-#define Y_RESN 1200      /* y resolution */
-#define NUM_COLORS 8     /* número de cores na paleta */
+#define X_RESN 4000      /* x resolution */
+#define Y_RESN 4000      /* y resolution */
+#define NUM_COLORS 256     /* número de cores na paleta */
 
 typedef struct complextype {
     float real, imag;
@@ -73,7 +73,7 @@ void main() {
     Display     *display;
     XSizeHints	size_hints;
     Pixmap      bitmap;
-    XPoint      points[1200];
+    XPoint      points[4000];
     FILE        *fp, *fopen();
     char        str[100];
     
@@ -97,8 +97,8 @@ void main() {
     display_height = DisplayHeight(display, screen);
 
     /* set window size */
-    width = 1200;
-    height = 1200;
+    width = 4000;
+    height = 4000;
 
     /* set window position */
     x = 0;
@@ -147,8 +147,8 @@ void main() {
     for (i = 0; i < X_RESN; i++) {
         for (j = 0; j < Y_RESN; j++) {
             z.real = z.imag = 0.0;
-            c.real = ((float) j - 600.0)/300.0;            /* scale factors for 1200 x 1200 window */
-            c.imag = ((float) i - 600.0)/300.0;
+            c.real = ((float) j - 2000.0)/1000.0;          /* scale factors for 4000 x 4000 window */
+            c.imag = ((float) i - 2000.0)/1000.0;
             k = 0;
 
             do {                                           /* iterate for pixel color */
