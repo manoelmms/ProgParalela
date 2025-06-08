@@ -8,8 +8,8 @@
 #include <math.h>
 #include <omp.h>
 
-#define X_RESN 800       /* x resolution */
-#define Y_RESN 800       /* y resolution */
+#define X_RESN 1024       /* x resolution */
+#define Y_RESN 1024       /* y resolution */
 
 typedef struct complextype {
     float real, imag;
@@ -57,8 +57,8 @@ void main() {
     display_height = DisplayHeight(display, screen);
 
     /* set window size */
-    width = 800;
-    height = 800;
+    width = 1024;
+    height = 1024;
 
     /* set window position */
     x = 0;
