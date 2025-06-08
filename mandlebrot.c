@@ -7,8 +7,8 @@
 #include <math.h>
 #include <omp.h>
 
-#define X_RESN 1200       /* x resolution */
-#define Y_RESN 1200       /* y resolution */
+#define X_RESN 800       /* x resolution */
+#define Y_RESN 800       /* y resolution */
 
 typedef struct complextype {
     float real, imag;
