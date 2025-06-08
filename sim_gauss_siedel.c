@@ -80,14 +80,12 @@ int main(int argc, char *argv[]) {
         printf("  Final error: %.6f\n\n", dt);
 
         // Optional: Print a small section of the grid for verification
-        if (ROWS <= 10 && COLUMNS <= 10) {
-            printf("  Final grid section:\n");
-            for (i = 1; i <= ROWS; i++) {
-                for (j = 1; j <= COLUMNS; j++) {
-                    printf("%.2f ", A[i][j]);
-                }
-                printf("\n");
+        printf("  Sample grid section (center):\n");
+        for (i = ROWS/2 - 2; i <= ROWS/2 + 2; i++) {
+            for (j = COLUMNS/2 - 2; j <= COLUMNS/2 + 2; j++) {
+                printf("%6.2f ", A[i][j]);
             }
+            printf("\n");
         }
         printf("--------------------------------------------------\n");
     }
