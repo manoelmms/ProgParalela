@@ -1,12 +1,11 @@
 /* Sequential Mandlebrot program */
-
-
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/Xos.h>
 #include <stdio.h>
 #include <string.h>
 #include <math.h>
+#include <stdlib.h>
 
 #define		X_RESN	800       /* x resolution */
 #define		Y_RESN	800       /* y resolution */
