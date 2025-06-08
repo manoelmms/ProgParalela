@@ -137,12 +137,6 @@ int main() {
     #pragma omp parallel for private(i, j, k, z, c, lengthsq, temp) schedule(dynamic, 10)
     for(i = 0; i < Y_RESN; i++) {
         
-        /* Print progress from thread 0 */
-        if (omp_get_thread_num() == 0 && i % 100 == 0) {
-            printf("Progress: %.1f%% (Thread %d/%d)\n", 
-                   (float)i/Y_RESN*100, omp_get_thread_num(), omp_get_num_threads());
-        }
-        
         for(j = 0; j < X_RESN; j++) {
             z.real = z.imag = 0.0;
             c.real = ((float) j - X_RESN/2.0) / (X_RESN/4.0);  /* scale to complex plane */
@@ -158,21 +152,14 @@ int main() {
                 k++;
             } while (lengthsq < 4.0 && k < MAX_ITER);
             
-            /* Critical section: only one thread can draw at a time */
-            #pragma omp critical(drawing)
-            {
-                XSetForeground(display, gc, colors[k]);
-                XDrawPoint(display, win, gc, j, i);
+            if (k == 100) {
+                #pragma omp critical
+                {
+                    XDrawPoint(display, win, gc, j, i);
+                }                
             }
         }
         
-        /* Periodic flush to show progress */
-        if (i % 50 == 0) {
-            #pragma omp critical(flushing)
-            {
-                XFlush(display);
-            }
-        }
     }
     
     /* End timing */
