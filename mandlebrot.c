@@ -143,7 +143,7 @@ void main() {
     double t_inicio = omp_get_wtime();
            
     /* Calculate and draw points */
-    #pragma omp parallel for default(none) private(j, z, c, k, temp, lengthsq) shared(display, win, gc, screen) schedule(static)
+    #pragma omp parallel for default(none) private(j, z, c, k, temp, lengthsq) shared(display, win, gc, screen) schedule(dynamic)
     for (i = 0; i < X_RESN; i++) {
         for (j = 0; j < Y_RESN; j++) {
             z.real = z.imag = 0.0;
