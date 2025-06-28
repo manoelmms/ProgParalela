@@ -55,7 +55,7 @@ void init() {
 
 void exportar_bin() {
     FILE* arquivo;
-    arquivo = fopen("mat_prod", "wb");
+    arquivo = fopen("mat_prod_naive", "wb");
     if (arquivo == NULL) {
         fprintf(stderr, "Cant create file!\n");
         exit(3);
