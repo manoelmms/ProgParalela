@@ -15,6 +15,17 @@ double* prod = NULL;
 
 unsigned int seed = 2025;
 
+void memory_allocate(double** mat, size_t size);
+void get_args(int argc, char* argv[]);
+void init();
+void exportar_bin();
+void finalize();
+void strassen(long _n, double* _mat1, long _mat1_jmp, double* _mat2, long _mat2_jmp, double* _prod, long _prod_jmp);
+void transpose_mat(long _n, double* _mat, long _mat_jmp, double* _mat_t, long _mat_t_jmp);
+void add_mat(long _n, double* _mat1, long _mat1_jmp, double* _mat2, long _mat2_jmp, double* _adic, long _adic_jmp);
+void sub_mat(long _n, double* _mat1, long _mat1_jmp, double* _mat2, long _mat2_jmp, double* _subt, long _subt_jmp);
+void mult_mat(long _n, double* _mat1, long _mat1_jmp, double* _mat2, long _mat2_jmp, double* _prod, long _prod_jmp);
+
 void transpose_mat(long _n, double* _mat, long _mat_jmp, double* _mat_t, long _mat_t_jmp) {
     for (long i = 0; i < _n; ++i) {
         double* p_mat = _mat + i;
@@ -300,7 +311,9 @@ int main(int argc, char* argv[]) {
     strassen(n, (double*) mat1, n, (double*) mat2, n, (double*) prod, n);
 
     double t_end = omp_get_wtime();
-    printf("%ld x %ld in %.15lf seconds\n", n, n, t_end - t_start);
+    
+    //Time to csv (t_end - t_start, n, 1, "strassen_seq") to be used in the plot script
+    printf("%.15lf,%ld,1,strassen_seq\n", t_end - t_start, n);
 
     // export the product matrix to a binary file
     exportar_bin();

@@ -419,7 +419,10 @@ int main(int argc, char* argv[]) {
     }
 
     double t_end = omp_get_wtime();
-    printf("%ld x %ld [%d threads] in %.15lf seconds\n", n, n, num_threads, t_end - t_start);
+    //printf("%ld x %ld [%d threads] in %.15lf seconds\n", n, n, num_threads, t_end - t_start);
+    //Time to csv (t_end - t_start, n, 1, "strassen_seq") to be used in the plot script
+    printf("%.15lf,%ld,%d,strassen_omp\n", t_end - t_start, n, num_threads);
+
 
     // export the product matrix to a binary file
     exportar_bin();

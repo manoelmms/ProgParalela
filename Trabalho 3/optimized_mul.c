@@ -128,7 +128,9 @@ int main(int argc, char* argv[]) {
     mult_mat();
 
     double t_end = omp_get_wtime();
-    printf("%ld x %ld in %.15lf seconds\n", n, n, t_end - t_start);
+    //printf("%ld x %ld in %.15lf seconds\n", n, n, t_end - t_start);
+    //Time to csv (t_end - t_start, n, 1, "optimized_seq") to be used in the plot script
+    printf("%.15lf,%ld,1,optimized_seq\n", t_end - t_start, n);
 
     // export the product matrix to a binary file
     exportar_bin();
