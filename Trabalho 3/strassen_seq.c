@@ -114,19 +114,19 @@ void strassen(long _n, double* _mat1, long _mat1_jmp, double* _mat2, long _mat2_
     size_t half_size = _n * _n * sizeof(double);
 
     double* mat1_00 = _mat1;
-    double* mat1_01 = _mat1 + new_n;
-    double* mat1_10 = _mat1 + new_n*_mat1_jmp;
-    double* mat1_11 = _mat1 + new_n*_mat1_jmp + new_n;
+    double* mat1_01 = _mat1 + half_n;
+    double* mat1_10 = _mat1 + half_n*_mat1_jmp;
+    double* mat1_11 = _mat1 + half_n*_mat1_jmp + half_n;
 
     double* mat2_00 = _mat2;
-    double* mat2_01 = _mat2 + new_n;
-    double* mat2_10 = _mat2 + new_n*_mat2_jmp;
-    double* mat2_11 = _mat2 + new_n*_mat2_jmp + new_n;
+    double* mat2_01 = _mat2 + half_n;
+    double* mat2_10 = _mat2 + half_n*_mat2_jmp;
+    double* mat2_11 = _mat2 + half_n*_mat2_jmp + half_n;
 
     double* prod_00 = _prod;
-    double* prod_01 = _prod + new_n;
-    double* prod_10 = _prod + new_n*_prod_jmp;
-    double* prod_11 = _prod + new_n*_prod_jmp + new_n;
+    double* prod_01 = _prod + half_n;
+    double* prod_10 = _prod + half_n*_prod_jmp;
+    double* prod_11 = _prod + half_n*_prod_jmp + half_n;
 
     double* s0 = NULL;
     double* s1 = NULL;
