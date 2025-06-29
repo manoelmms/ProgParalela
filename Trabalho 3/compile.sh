@@ -6,5 +6,7 @@ gcc -fopenmp -o naive_mul naive_mul.c -lm
 gcc -DL1D_CACHE_TAM=$(getconf LEVEL1_DCACHE_LINESIZE) -O3 -fno-tree-loop-vectorize -fno-tree-slp-vectorize -fno-tree-vectorize -fopenmp -o optimized_mul optimized_mul.c -lm
 # Compile the Strassen algorithm program using gcc
 gcc -DL1D_CACHE_TAM=$(getconf LEVEL1_DCACHE_LINESIZE) -O3 -fno-tree-loop-vectorize -fno-tree-slp-vectorize -fno-tree-vectorize -fopenmp -o strassen_omp_tsk strassen_omp_tsk.c -lm
-# Compile the Strassen algorithm program using gcc vectorized MIC-AVX512
+# Compile the Strassen algorithm program using gcc vectorized MIC-AVX512 - not good
 gcc -DL1D_CACHE_TAM=$(getconf LEVEL1_DCACHE_LINESIZE) -O3 -mavx512f -mavx512er -mavx512cd -mavx512pf -fopenmp -o strassen_omp_tsk_mic strassen_omp_tsk.c -lm
+# Compile the Strassen algorithm program using gcc vectorized MIC-AVX512 - good
+gcc -O3 -march=knl -mtune=knl -mavx512f -mavx512cd -fopenmp -ffast-math -funroll-loops -ftree-vectorize strassen_avx512.c -o strassen_avx512
