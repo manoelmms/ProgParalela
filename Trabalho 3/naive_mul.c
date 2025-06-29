@@ -14,7 +14,7 @@ void mult_mat() {
     for (long i = 0; i < n; ++i)
         for (long j = 0; j < n; ++j)
             for (long k = 0; k < n; ++k)
-                prod[i,j] += mat1[i,k] * mat2[k,j];
+                prod[i*n + j] += mat1[i*n + k] * mat2[k*n + j];
 }
 
 void get_args(int argc, char* argv[]) {
@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
     //Time to csv (t_end - t_start, n, 1, "naive_mul") to be used in the plot script
     printf("%.15lf,%ld,1,naive_mul\n", t_end - t_start, n);
 
-    // export the product matrix to a binary file
+    //export the product matrix to a binary file
     exportar_bin();
     finalize();
     return 0;
