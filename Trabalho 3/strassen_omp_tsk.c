@@ -425,7 +425,7 @@ int main(int argc, char* argv[]) {
 
 
     // export the product matrix to a binary file
-    exportar_bin();
+    //exportar_bin();
     finalize();
     return 0;
 }

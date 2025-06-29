@@ -316,7 +316,7 @@ int main(int argc, char* argv[]) {
     printf("%.15lf,%ld,1,strassen_seq\n", t_end - t_start, n);
 
     // export the product matrix to a binary file
-    exportar_bin();
+    //exportar_bin();
     finalize();
     return 0;
 }

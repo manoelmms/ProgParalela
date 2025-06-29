@@ -1,7 +1,7 @@
 #!/bin/bash 
 
 # Compile the naive matrix multiplication program using gcc
-gcc -O1 -fopenmp -o naive_mul naive_mul.c -lm
+gcc -fopenmp -o naive_mul naive_mul.c -lm
 # Compile the optimized matrix multiplication program using gcc
 gcc -DL1D_CACHE_TAM=$(getconf LEVEL1_DCACHE_LINESIZE) -O3 -fno-tree-loop-vectorize -fno-tree-slp-vectorize -fno-tree-vectorize -fopenmp -o optimized_mul optimized_mul.c -lm
 # Compile the Strassen algorithm program using gcc
