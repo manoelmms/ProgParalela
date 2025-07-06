@@ -114,7 +114,7 @@ int main(int argc, char* argv[]) {
     int* displs = NULL;
     double tempo_inicializacao_inicio;
     double tempo_inicializacao_fim;
-    int N;
+    long N;
     MPI_Request pedido;
     
     /* Verifica o número de argumentos passados */
@@ -197,14 +197,16 @@ int main(int argc, char* argv[]) {
     
     // Exibe resultados
     if (meu_rank == 0) {
-        printf("Número de processos: %d\n", num_proc);
-        printf("n = %d\n", N);
-        printf("Tempo total de execução: %1.10f\n", tempo_final - tempo_inicial);
-        printf("Tempo de execução (sem inicialização): %1.10f\n", 
-               (tempo_final - tempo_inicial) - (tempo_inicializacao_fim - tempo_inicializacao_inicio));
-        printf("Vetor ordenado: %s\n", correctude(resultado, N) ? "SIM" : "NÃO");
-        //printf("Vetor ordenado: ");
-        //imprime_vetor(meu_rank, resultado, N);
+        // printf("Número de processos: %d\n", num_proc);
+        // printf("n = %d\n", N);
+        // printf("Tempo total de execução: %1.10f\n", tempo_final - tempo_inicial);
+        // printf("Tempo de execução (sem inicialização): %1.10f\n", 
+        //        (tempo_final - tempo_inicial) - (tempo_inicializacao_fim - tempo_inicializacao_inicio));
+        // printf("Vetor ordenado: %s\n", correctude(resultado, N) ? "SIM" : "NÃO");
+
+        //Time to csv (t_end - t_start, n, 1, "strassen_seq") to be used in the plot script
+        printf("%.15lf,%ld,%d,mergesort_mpi\n", 
+            tempo_final - tempo_inicial - (tempo_inicializacao_fim - tempo_inicializacao_inicio), N, num_proc);
     }
     
 
