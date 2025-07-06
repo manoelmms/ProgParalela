@@ -161,7 +161,7 @@ int main(int argc, char* argv[]) {
         tempo_inicializacao_fim = MPI_Wtime();
 
         //printf("Tempo de inicialização do vetor: %1.10f segundos\n", 
-               tempo_inicializacao_fim - tempo_inicializacao_inicio);
+        //       tempo_inicializacao_fim - tempo_inicializacao_inicio);
 
         MPI_Iscatterv(vetor, scounts, displs, MPI_INT, MPI_IN_PLACE, 
                      scounts[meu_rank], MPI_INT, 0, MPI_COMM_WORLD, &pedido);
