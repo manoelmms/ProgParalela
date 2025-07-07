@@ -160,8 +160,8 @@ int main(int argc, char **argv) {
     /* this call is used to achieve a consistent output format */
     /*new_sleep (3);*/
     //printf ("\n");
-    printf ("The linear equation that best fits the given data:\n");
-    printf ("       y = %6.2lfx + %6.2lf\n", slope, y_intercept);
+    //printf ("The linear equation that best fits the given data:\n");
+    //printf ("       y = %6.2lfx + %6.2lf\n", slope, y_intercept);
     //printf ("--------------------------------------------------\n");
     //printf ("   Original (x,y)     Estimated y     Residual\n");
     //printf ("--------------------------------------------------\n");
@@ -178,12 +178,16 @@ int main(int argc, char **argv) {
     tempo_final = MPI_Wtime();
 
     //printf("--------------------------------------------------\n");
-    printf("Residual sum = %6.2lf\n", SUMres);
-    printf("--------------------------------------------------\n");
-    printf ("Number of processes used: %d\n", numprocs);
-    printf("n = %d\n", n);
-    printf("Tempo de execução = %6.10lf\n", tempo_final - tempo_inicial);
-    printf("--------------------------------------------------\n");
+    //printf("Residual sum = %6.2lf\n", SUMres);
+    //printf("--------------------------------------------------\n");
+    //printf ("Number of processes used: %d\n", numprocs);
+    //printf("n = %d\n", n);
+    //printf("Tempo de execução = %6.10lf\n", tempo_final - tempo_inicial);
+    //printf("--------------------------------------------------\n");
+
+    //Time to csv (t_end - t_start, n, 1, "strassen_seq") to be used in the plot script
+    printf("%.15lf,%ld,%d,scatterv_minq_mpi\n", 
+           tempo_final - tempo_inicial, (long)n, numprocs);
   }
 
   /* ----------------------------------------------------------	*/

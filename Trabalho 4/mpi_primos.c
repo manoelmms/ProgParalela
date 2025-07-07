@@ -46,8 +46,11 @@ int main(int argc, char *argv[]) {
 
 	if (meu_ranque == 0) {
         total += 1;    /* Acrescenta o dois, que também é primo */
-		printf("Quant. de primos entre 1 e n: %d \n", total);
-		printf("Tempo de execucao: %1.3f \n", t_final - t_inicial);	 
+		//printf("Quant. de primos entre 1 e n: %d \n", total);
+		//printf("Tempo de execucao: %1.3f \n", t_final - t_inicial);	
+		//Time to csv (t_end - t_start, n, 1, "strassen_seq") to be used in the plot script
+		printf("%.15lf,%ld,%d,primos_mpi\n", 
+		       t_final - t_inicial, (long)n, num_procs); 
 	}
 	MPI_Finalize();
 	return(0);

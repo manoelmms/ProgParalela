@@ -73,8 +73,11 @@ MPI_Status estado;
 	if (meu_ranque == 0) {
 		t_final = MPI_Wtime();
         total += 1;    /* Acrescenta o 2, que é primo */
-		printf("Quant. de primos entre 1 e %d: %d \n", n, total);
-		printf("Tempo de execucao: %1.3f \n", t_final - t_inicial);  	 
+		// printf("Quant. de primos entre 1 e %d: %d \n", n, total);
+		// printf("Tempo de execucao: %1.3f \n", t_final - t_inicial);
+        // Time to csv (t_end - t_start, n, 1, "strassen_seq") to be used in the plot script
+        printf("%.15lf,%d,%d,primosbag_mpi\n", 
+                t_final - t_inicial, n, num_procs);  	 
 	}
 /* Finaliza o programa */
 	MPI_Barrier(MPI_COMM_WORLD);
