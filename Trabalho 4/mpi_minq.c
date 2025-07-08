@@ -108,9 +108,9 @@ int main(int argc, char **argv) {
 	      &istatus);
     MPI_Recv (&y[ishift], mypoints, MPI_DOUBLE, 0, 4, MPI_COMM_WORLD,
 	      &istatus);
-    printf ("id %d: ", myid);
-    for (i=0; i<n; i++) printf("%4.2lf ", x[i]);
-    printf ("\n");
+    // printf ("id %d: ", myid);
+    // for (i=0; i<n; i++) printf("%4.2lf ", x[i]);
+    // printf ("\n");
     /* ---------------------------------------------------------- */
   }
 
