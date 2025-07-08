@@ -173,8 +173,8 @@ int main(int argc, char **argv) {
       y_estimate = slope*x[i] + y_intercept;
       res = y[i] - y_estimate;
       SUMres = SUMres + res*res;
-      printf ("   (%6.2lf %6.2lf)      %6.2lf       %6.2lf\n", 
-	      x[i], y[i], y_estimate, res);
+      //printf ("   (%6.2lf %6.2lf)      %6.2lf       %6.2lf\n", 
+	  //    x[i], y[i], y_estimate, res);
     }
     printf("--------------------------------------------------\n");
     printf("Residual sum = %6.2lf\n", SUMres);
