@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
   double mySUMx, mySUMy, mySUMxy, mySUMxx, SUMx, SUMy, SUMxy,
          SUMxx, SUMres, res, slope, y_intercept, y_estimate;
   int i,j,n,myid,numprocs,naverage,nremain,mypoints,ishift;
+  double t_inicial, t_final;
   /*int new_sleep (int seconds);*/
   MPI_Status istatus;
   FILE *infile;
@@ -60,10 +61,13 @@ int main(int argc, char **argv) {
   MPI_Comm_rank (MPI_COMM_WORLD, &myid);
   MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
 
+  
+
   /* ----------------------------------------------------------
    * Step 1: Process 0 reads data and sends the value of n
    * ---------------------------------------------------------- */
   if (myid == 0) {
+    t_inicial = MPI_Wtime();
     printf ("Number of processes used: %d\n", numprocs);
     printf ("-------------------------------------\n");
     printf ("The x coordinates on worker processes:\n");
@@ -167,17 +171,19 @@ int main(int argc, char **argv) {
     printf ("--------------------------------------------------\n");
     printf ("   Original (x,y)     Estimated y     Residual\n");
     printf ("--------------------------------------------------\n");
-    
-    SUMres = 0;
-    for (i=0; i<n; i++) {
-      y_estimate = slope*x[i] + y_intercept;
-      res = y[i] - y_estimate;
-      SUMres = SUMres + res*res;
-      //printf ("   (%6.2lf %6.2lf)      %6.2lf       %6.2lf\n", 
-	  //    x[i], y[i], y_estimate, res);
-    }
-    printf("--------------------------------------------------\n");
-    printf("Residual sum = %6.2lf\n", SUMres);
+    t_final = MPI_Wtime();
+
+    printf("%.15lf", t_final - t_inicial);
+    // SUMres = 0;
+    // for (i=0; i<n; i++) {
+    //   y_estimate = slope*x[i] + y_intercept;
+    //   res = y[i] - y_estimate;
+    //   SUMres = SUMres + res*res;
+    //   //printf ("   (%6.2lf %6.2lf)      %6.2lf       %6.2lf\n", 
+	//   //    x[i], y[i], y_estimate, res);
+    // }
+    // printf("--------------------------------------------------\n");
+    // printf("Residual sum = %6.2lf\n", SUMres);
   }
 
   /* ----------------------------------------------------------	*/
