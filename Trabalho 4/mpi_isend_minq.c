@@ -106,17 +106,24 @@ int main(int argc, char **argv) {
       ishift = i*naverage;
       mypoints = (i < numprocs -1) ? naverage : naverage + nremain;
       MPI_Isend (&ishift, 1, MPI_INT, i, 1, MPI_COMM_WORLD, &irequest);
+      MPI_Wait(&irequest, &istatus);
       MPI_Isend (&mypoints, 1, MPI_INT, i, 2, MPI_COMM_WORLD, &irequest);
+      MPI_Wait(&irequest, &istatus);
       MPI_Isend (&x[ishift], mypoints, MPI_DOUBLE, i, 3, MPI_COMM_WORLD, &irequest);
+      MPI_Wait(&irequest, &istatus);
       MPI_Isend (&y[ishift], mypoints, MPI_DOUBLE, i, 4, MPI_COMM_WORLD, &irequest);
+      MPI_Wait(&irequest, &istatus);
     }
   }
   else {
     /* ---------------the other processes receive---------------- */
     MPI_Irecv (&ishift, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &irequest);
+    MPI_Wait(&irequest, &istatus);
     MPI_Irecv (&mypoints, 1, MPI_INT, 0, 2, MPI_COMM_WORLD, &irequest);
+    MPI_Wait(&irequest, &istatus);
     MPI_Irecv (&x[ishift], mypoints, MPI_DOUBLE, 0, 3, MPI_COMM_WORLD,
 	      &irequest);
+    MPI_Wait(&irequest, &istatus);
     MPI_Irecv (&y[ishift], mypoints, MPI_DOUBLE, 0, 4, MPI_COMM_WORLD,
 	      &irequest);
     MPI_Wait(&irequest, &istatus);
@@ -151,8 +158,8 @@ int main(int argc, char **argv) {
    * Step 5: Process 0 does the final steps
    * ---------------------------------------------------------- */
   if (myid == 0) {
-    slope = ( SUM[X]*SUM[Y] - n*SUM[XY] ) / ( SUM[X]*SUM[X] - n*SUM[XX] );
-    y_intercept = ( SUM[Y] - slope*SUM[X] ) / n;
+    // slope = ( SUM[X]*SUM[Y] - n*SUM[XY] ) / ( SUM[X]*SUM[X] - n*SUM[XX] );
+    // y_intercept = ( SUM[Y] - slope*SUM[X] ) / n;
     /* this call is used to achieve a consistent output format */
     /*new_sleep (3);*/    
     //printf ("\n");
@@ -162,14 +169,14 @@ int main(int argc, char **argv) {
     //printf ("   Original (x,y)     Estimated y     Residual\n");
     //printf ("--------------------------------------------------\n");
     
-    SUMres = 0;
-    for (i=0; i<n; i++) {
-      y_estimate = slope*x[i] + y_intercept;
-      res = y[i] - y_estimate;
-      SUMres = SUMres + res*res;
-      //printf ("   (%6.2lf %6.2lf)      %6.2lf       %6.2lf\n", 
-	    //  x[i], y[i], y_estimate, res);
-    }
+    // SUMres = 0;
+    // for (i=0; i<n; i++) {
+    //   y_estimate = slope*x[i] + y_intercept;
+    //   res = y[i] - y_estimate;
+    //   SUMres = SUMres + res*res;
+    //   //printf ("   (%6.2lf %6.2lf)      %6.2lf       %6.2lf\n", 
+	  //   //  x[i], y[i], y_estimate, res);
+    // }
     
     tempo_final = MPI_Wtime();
 
