@@ -106,24 +106,17 @@ int main(int argc, char **argv) {
       ishift = i*naverage;
       mypoints = (i < numprocs -1) ? naverage : naverage + nremain;
       MPI_Isend (&ishift, 1, MPI_INT, i, 1, MPI_COMM_WORLD, &irequest);
-      MPI_Wait(&irequest, &istatus);
       MPI_Isend (&mypoints, 1, MPI_INT, i, 2, MPI_COMM_WORLD, &irequest);
-      MPI_Wait(&irequest, &istatus);
       MPI_Isend (&x[ishift], mypoints, MPI_DOUBLE, i, 3, MPI_COMM_WORLD, &irequest);
-      MPI_Wait(&irequest, &istatus);
       MPI_Isend (&y[ishift], mypoints, MPI_DOUBLE, i, 4, MPI_COMM_WORLD, &irequest);
-      MPI_Wait(&irequest, &istatus);
     }
   }
   else {
     /* ---------------the other processes receive---------------- */
     MPI_Irecv (&ishift, 1, MPI_INT, 0, 1, MPI_COMM_WORLD, &irequest);
-    MPI_Wait(&irequest, &istatus);
     MPI_Irecv (&mypoints, 1, MPI_INT, 0, 2, MPI_COMM_WORLD, &irequest);
-    MPI_Wait(&irequest, &istatus);
     MPI_Irecv (&x[ishift], mypoints, MPI_DOUBLE, 0, 3, MPI_COMM_WORLD,
 	      &irequest);
-    MPI_Wait(&irequest, &istatus);
     MPI_Irecv (&y[ishift], mypoints, MPI_DOUBLE, 0, 4, MPI_COMM_WORLD,
 	      &irequest);
     MPI_Wait(&irequest, &istatus);
