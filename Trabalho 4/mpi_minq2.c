@@ -42,24 +42,24 @@ int main(int argc, char **argv) {
     // // printf ("-------------------------------------\n");
     
     // fscanf (infile, "%d", &n);
-    x = (double *) malloc (n*sizeof(double));
-    y = (double *) malloc (n*sizeof(double));
+    x_v = (double *) malloc (n*sizeof(double));
+    y_v = (double *) malloc (n*sizeof(double));
     // for (i=0; i<n; i++)
     //   fscanf (infile, "%lf %lf", &x[i], &y[i]);
     // fclose(infile);
     srand(SEED);
     double h = (RANGE_END - RANGE_BEGIN) / n;
     
-    for (double x = RANGE_BEGIN; x <= RANGE_END; x += h) {
-        double y = f(x);
+    for (i = 0; i < n; i++) {
+        x[i] = RANGE_BEGIN + i * h;
+        y[i] = f(x[i]);
         
         // Add random noise to y value
         double noise = rand() / (double) RAND_MAX;
         noise = NOISE_MIN + noise * (NOISE_MAX - NOISE_MIN);
-        y *= 1.0 + noise / 100.0;
-        // Store the data in arrays
-        x[i] = x;
-        y[i] = y;
+        y[i] *= 1.0 + noise / 100.0;
+    }
+
   }
   
   /* ----------------------------------------------------------
