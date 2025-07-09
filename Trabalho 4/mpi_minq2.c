@@ -42,8 +42,8 @@ int main(int argc, char **argv) {
     // // printf ("-------------------------------------\n");
     
     // fscanf (infile, "%d", &n);
-    x_v = (double *) malloc (n*sizeof(double));
-    y_v = (double *) malloc (n*sizeof(double));
+    x = (double *) malloc (n*sizeof(double));
+    y = (double *) malloc (n*sizeof(double));
     // for (i=0; i<n; i++)
     //   fscanf (infile, "%lf %lf", &x[i], &y[i]);
     // fclose(infile);
