@@ -3,6 +3,16 @@
 #include <stdio.h>
 #include "mpi.h"
 
+#define RANGE_BEGIN -100.0
+#define RANGE_END 100.0
+#define NOISE_MIN -2.5
+#define NOISE_MAX 2.5
+#define SEED 2025
+
+double f(double x) {
+    return 7.0*x + 2.0;
+}
+
 int main(int argc, char **argv) {
 
   double *x, *y, *local_x, *local_y;
@@ -16,30 +26,41 @@ int main(int argc, char **argv) {
   MPI_Init(&argc, &argv);
   MPI_Comm_rank (MPI_COMM_WORLD, &myid);
   MPI_Comm_size (MPI_COMM_WORLD, &numprocs);
+  n = strtol(argv[1], (char **) NULL, 10);
 
   /* ----------------------------------------------------------
    * Step 1: Process 0 reads data and prepares for scatter
    * ---------------------------------------------------------- */
   if (myid == 0) {
-    infile = fopen("xydata", "r");
-    if (infile == NULL) {
-      printf("error opening file\n");
-      MPI_Abort(MPI_COMM_WORLD, 1);
-    }
+    // infile = fopen("xydata", "r");
+    // if (infile == NULL) {
+    //   printf("error opening file\n");
+    //   MPI_Abort(MPI_COMM_WORLD, 1);
+    // }
     
-    // printf ("Number of processes used: %d\n", numprocs);
-    // printf ("-------------------------------------\n");
+    // // printf ("Number of processes used: %d\n", numprocs);
+    // // printf ("-------------------------------------\n");
     
-    fscanf (infile, "%d", &n);
+    // fscanf (infile, "%d", &n);
     x = (double *) malloc (n*sizeof(double));
     y = (double *) malloc (n*sizeof(double));
-    for (i=0; i<n; i++)
-      fscanf (infile, "%lf %lf", &x[i], &y[i]);
-    fclose(infile);
+    // for (i=0; i<n; i++)
+    //   fscanf (infile, "%lf %lf", &x[i], &y[i]);
+    // fclose(infile);
+    srand(SEED);
+    double h = (RANGE_END - RANGE_BEGIN) / n;
+    
+    for (double x = RANGE_BEGIN; x <= RANGE_END; x += h) {
+        double y = f(x);
+        
+        // Add random noise to y value
+        double noise = rand() / (double) RAND_MAX;
+        noise = NOISE_MIN + noise * (NOISE_MAX - NOISE_MIN);
+        y *= 1.0 + noise / 100.0;
+        // Store the data in arrays
+        x[i] = x;
+        y[i] = y;
   }
-  
-  // Broadcast n to all processes
-  MPI_Bcast(&n, 1, MPI_INT, 0, MPI_COMM_WORLD);
   
   /* ----------------------------------------------------------
    * Step 2: Calculate distribution for MPI_Scatterv
@@ -94,14 +115,10 @@ int main(int argc, char **argv) {
   // Synchronize before ending timing
   MPI_Barrier(MPI_COMM_WORLD);
   t_final = MPI_Wtime();
-
-  /* ----------------------------------------------------------
-   * Step 6: Calculate final results (all processes can do this)
-   * ---------------------------------------------------------- */
-  slope = ( SUMx*SUMy - n*SUMxy ) / ( SUMx*SUMx - n*SUMxx );
-  y_intercept = ( SUMy - slope*SUMx ) / n;
   
   if (myid == 0) {
+    slope = ( SUMx*SUMy - n*SUMxy ) / ( SUMx*SUMx - n*SUMxx );
+    y_intercept = ( SUMy - slope*SUMx ) / n;
     // printf ("\n");
     // printf ("The linear equation that best fits the given data:\n");
     // printf ("       y = %6.2lfx + %6.2lf\n", slope, y_intercept);
