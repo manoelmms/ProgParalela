@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
     // printf ("--------------------------------------------------\n");
     // printf ("   Original (x,y)     Estimated y     Residual\n");
     // printf ("--------------------------------------------------\n");
-    / Saída para análise de desempenho
+    // Saída para análise de desempenho
     printf("%.15lf,%d,%d,minq_mpi\n", 
            t_final - t_inicial, n, numprocs);
 
