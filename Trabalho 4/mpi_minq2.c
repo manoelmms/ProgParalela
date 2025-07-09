@@ -102,14 +102,17 @@ int main(int argc, char **argv) {
   y_intercept = ( SUMy - slope*SUMx ) / n;
   
   if (myid == 0) {
-    printf ("\n");
-    printf ("The linear equation that best fits the given data:\n");
-    printf ("       y = %6.2lfx + %6.2lf\n", slope, y_intercept);
-    printf ("--------------------------------------------------\n");
-    printf ("Execution time: %.15lf seconds\n", t_final - t_inicial);
-    printf ("--------------------------------------------------\n");
-    printf ("   Original (x,y)     Estimated y     Residual\n");
-    printf ("--------------------------------------------------\n");
+    // printf ("\n");
+    // printf ("The linear equation that best fits the given data:\n");
+    // printf ("       y = %6.2lfx + %6.2lf\n", slope, y_intercept);
+    // printf ("--------------------------------------------------\n");
+    // printf ("Execution time: %.15lf seconds\n", t_final - t_inicial);
+    // printf ("--------------------------------------------------\n");
+    // printf ("   Original (x,y)     Estimated y     Residual\n");
+    // printf ("--------------------------------------------------\n");
+    / Saída para análise de desempenho
+    printf("%.15lf,%d,%d,minq_mpi\n", 
+           t_final - t_inicial, n, numprocs);
 
     // SUMres = 0;
     // for (i=0; i<n; i++) {
